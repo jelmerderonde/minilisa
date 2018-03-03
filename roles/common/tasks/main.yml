@@ -1,3 +1,5 @@
+# https://affy.blogspot.nl/2013/10/how-to-setup-password-less-ssh-between.html
+
 - name: add apt key for R repository
   apt_key: id="E19F5F87128899B192B1A2C2AD5F960A256A04AF" keyserver="keys.gnupg.net" state=present
 
@@ -27,3 +29,4 @@
   with_items:
     - foreach
     - doMPI
+    - Rmpi
