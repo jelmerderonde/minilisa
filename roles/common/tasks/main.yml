@@ -1,0 +1,21 @@
+- name: Add the APT key for official R repository
+  apt_key: id="E19F5F87128899B192B1A2C2AD5F960A256A04AF" keyserver="keys.gnupg.net" state=present
+
+- name: Ensure APT official R repository
+  apt_repository: repo="deb http://cloud.r-project.org/bin/linux/debian stretch-cran34/"
+
+- name: update system
+  apt:
+    upgrade: dist
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: install packages
+  apt: state=latest name={{ item }}
+  with_items:
+    - openmpi-bin
+
+- name: Install the R packages
+  apt:
+    name: r-base=3.4.3
+    state: present
