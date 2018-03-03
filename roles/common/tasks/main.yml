@@ -1,7 +1,7 @@
-- name: Add the APT key for official R repository
+- name: add apt key for R repository
   apt_key: id="E19F5F87128899B192B1A2C2AD5F960A256A04AF" keyserver="keys.gnupg.net" state=present
 
-- name: Ensure APT official R repository
+- name: add R repository
   apt_repository: repo="deb http://cloud.r-project.org/bin/linux/debian jessie-cran34/"
 
 - name: update system
@@ -15,3 +15,15 @@
   with_items:
     - openmpi-bin
     - r-base
+    - r-recommended
+    - r-cran-rmpi
+
+- name: install R packages
+  command: >
+    Rscript --slave --no-save --no-restore-history -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) { install.packages(pkgs='{{ item }}', repos=c('http://cloud.r-project.org/')); print('Added'); } else { print('Already installed'); }"
+  register: r_result
+  failed_when: "r_result.rc != 0 or 'had non-zero exit status' in r_result.stderr"
+  changed_when: "'Added' in r_result.stdout"
+  with_items:
+    - foreach
+    - doMPI
