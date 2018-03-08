@@ -32,11 +32,6 @@
     - become_user: "{{ ssh_user }}"
   with_items: "{{ ssh_targets }}"
 
-- name: Rehash hostnames
-  become: false
-  command: ssh-keygen -H
-  when: ssh_known_hosts_rehash
-
 - name: Deleting temporal key
   local_action: file path={{ tmp_keyfile }} state=absent
   ignore_errors: true
