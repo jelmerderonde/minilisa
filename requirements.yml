@@ -1,0 +1,2 @@
+# Ansible galaxy roles
+- src: ccremer.ssh-cluster
