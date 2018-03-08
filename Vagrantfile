@@ -1,16 +1,16 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-N=3
 Vagrant.configure("2") do |config|
-  (1..N).each do |i|
+  (1..3).each do |i|
     config.vm.define "node-#{i}" do |node|
       node.vm.box = "debian/jessie64"
       node.vm.hostname = "node-#{i}"
 
       node.vm.network :private_network, ip: "10.0.0.#{10+i}"
+      node.vm.provision :shell, :inline => "sudo ln -fs /vagrant/etc-hosts /etc/hosts"
 
-      if i == N
+      if i == 3
         node.vm.provision :ansible do |ansible|
           ansible.limit = "all"
           ansible.playbook = "playbook.yml"
