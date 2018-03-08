@@ -1,5 +1,9 @@
 ---
 - hosts: all
   become: true
+  vars:
+    ssh_user: vagrant
+    ssh_targets: "{{ groups['all'] }}"
   roles:
     - common
+    - ccremer.ssh-cluster

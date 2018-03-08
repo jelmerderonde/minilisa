@@ -1,0 +1,4 @@
+---
+ssh_targets: []
+ssh_user: root
+ssh_known_hosts_rehash: true

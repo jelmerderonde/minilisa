@@ -1,0 +1,6 @@
+---
+
+host_keyfile: /etc/ssh/ssh_host_ecdsa_key.pub
+root_keyfile: "{{ ansible_env.HOME }}/.ssh/id_ecdsa"
+tmp_keyfile: /tmp/id_ecdsa.{{ inventory_hostname }}
+tmp_host_keyfile: /tmp/host_ecdsa.{{ inventory_hostname }}

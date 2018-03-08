@@ -1,3 +1,2 @@
 .vagrant
 playbook.retry
-roles/ccremer.ssh-cluster

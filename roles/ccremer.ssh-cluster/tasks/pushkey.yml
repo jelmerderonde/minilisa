@@ -1,0 +1,34 @@
+---
+- name: "Distribute key to {{ target }}"
+  delegate_to: "{{ target }}"
+  authorized_key:
+    user: "{{ ssh_user }}"
+    key: "{{ lookup('file', '{{ tmp_keyfile }}') }}"
+  when: target != inventory_hostname
+
+- name: Setting up known hosts
+  when: target != inventory_hostname
+  block:
+
+  - name: "Touch known hosts"
+    file:
+      path: ~/.ssh/known_hosts
+      state: touch
+
+  - name: "Remove existing Hostname {{ target }}"
+    command: "ssh-keygen -R {{ target }}"
+
+  - name: "Add new Hostname {{ target }}"
+    lineinfile:
+      path: ~/.ssh/known_hosts
+      line: "{{ target }} {{ lookup('file', '/tmp/host_ecdsa.{{ target }}') }}"
+
+  - name: "Deleting key"
+    file:
+      path: "/tmp/host_ecdsa.{{ target }}"
+      state: absent
+
+  - name: "Deleting old known_hosts file"
+    file:
+      path: ~/.ssh/known_hosts.old
+      state: absent
