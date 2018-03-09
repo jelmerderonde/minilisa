@@ -21,11 +21,11 @@
   - name: "Add new Hostname {{ target }}"
     lineinfile:
       path: ~/.ssh/known_hosts
-      line: "{{ target }} {{ lookup('file', '/tmp/host_ecdsa.{{ target }}') }}"
+      line: "{{ target }} {{ lookup('file', './tmp/host_ecdsa.{{ target }}') }}"
 
   - name: "Deleting key"
     file:
-      path: "/tmp/host_ecdsa.{{ target }}"
+      path: "./tmp/host_ecdsa.{{ target }}"
       state: absent
 
   - name: "Deleting old known_hosts file"
